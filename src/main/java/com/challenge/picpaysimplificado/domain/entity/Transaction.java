@@ -19,16 +19,26 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Transaction {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id_transaction")
     private UUID id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @Column(name = "trn_value")
     private BigDecimal value;
+    @JoinColumns(value = @JoinColumn(name = "id_payer"), foreignKey = @ForeignKey(name = "id_user"))
     private Long id_payer;
-    private Long id_payee;
+    @JoinColumns(value = @JoinColumn(name = "id_receiver"), foreignKey = @ForeignKey(name = "id_user"))
+    private Long id_receiver;
+    @Enumerated(EnumType.STRING)
     private UserType userType;
-    @JoinColumns(value = @JoinColumn(name = "id_user"), foreignKey = @ForeignKey(name = "id_user"))
-    private User user;
     private LocalDateTime timestamp;
+
+    public Transaction(BigDecimal value, Long id_payer, Long id_receiver, UserType userType){
+        this.value = value;
+        this.id_payer = id_payer;
+        this.id_receiver = id_receiver;
+        this.userType = userType;
+        this.timestamp = LocalDateTime.now();
+    }
 
 }
