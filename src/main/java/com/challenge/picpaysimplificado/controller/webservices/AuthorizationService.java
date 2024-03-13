@@ -1,6 +1,6 @@
 package com.challenge.picpaysimplificado.controller.webservices;
 
-import com.challenge.picpaysimplificado.exceptions.WebServiceException;
+import com.challenge.picpaysimplificado.exceptionshandler.exceptions.WebServiceException;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
