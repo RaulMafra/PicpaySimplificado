@@ -1,4 +1,4 @@
-package com.challenge.picpaysimplificado.exceptions;
+package com.challenge.picpaysimplificado.exceptionshandler.exceptions;
 
 public class UserException extends RuntimeException {
 
