@@ -29,6 +29,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
     @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
     private BigDecimal balance;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -38,6 +40,7 @@ public class User {
         this.name = createUserDTO.name();
         this.document = createUserDTO.document();
         this.email = createUserDTO.email();
+        this.password = createUserDTO.password();
         this.balance = createUserDTO.balance();
         this.userType = createUserDTO.userType();
     }
