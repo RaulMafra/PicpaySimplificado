@@ -1,7 +1,7 @@
 package com.challenge.picpaysimplificado.controller;
 
 import com.challenge.picpaysimplificado.dto.response.GetUserDTO;
-import com.challenge.picpaysimplificado.dto.response.HttpResponse;
+import com.challenge.picpaysimplificado.dto.response.HttpResponseDTO;
 import com.challenge.picpaysimplificado.dto.request.CreateUserDTO;
 import com.challenge.picpaysimplificado.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ public class UserController {
 
 
     @PostMapping("/createUser")
-    public ResponseEntity<HttpResponse> createUser(@RequestBody CreateUserDTO createUserDTO){
+    public ResponseEntity<HttpResponseDTO> createUser(@RequestBody CreateUserDTO createUserDTO){
         this.userServiceImpl.createUser(createUserDTO);
-        return new ResponseEntity<>(new HttpResponse("User created with successfully"), HttpStatus.CREATED);
+        return new ResponseEntity<>(new HttpResponseDTO("User created with successfully"), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

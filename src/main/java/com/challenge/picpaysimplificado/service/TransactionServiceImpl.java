@@ -6,8 +6,8 @@ import com.challenge.picpaysimplificado.domain.entity.Transaction;
 import com.challenge.picpaysimplificado.domain.entity.User;
 import com.challenge.picpaysimplificado.domain.entity.enumerator.UserType;
 import com.challenge.picpaysimplificado.dto.request.TransactionDTO;
-import com.challenge.picpaysimplificado.exceptions.TransactionException;
-import com.challenge.picpaysimplificado.exceptions.UserException;
+import com.challenge.picpaysimplificado.exceptionshandler.exceptions.TransactionException;
+import com.challenge.picpaysimplificado.exceptionshandler.exceptions.UserNotFound;
 import com.challenge.picpaysimplificado.repository.TransactionRepository;
 import com.challenge.picpaysimplificado.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +40,9 @@ public class TransactionServiceImpl implements TransactionService {
             throw new TransactionException("There is some field empty");
         }
         User payer = this.userRepository.findById(transactionDTO.payer()).orElseThrow(() ->
-                new UserException("Payer not found"));
+                new UserNotFound("Payer not found"));
         User receiver = this.userRepository.findById(transactionDTO.receiver()).orElseThrow(() ->
-                new UserException("Receiver not found"));
+                new UserNotFound("Receiver not found"));
 
         this.verifyUserType(payer);
         this.checkBalance(payer, transactionDTO.value());

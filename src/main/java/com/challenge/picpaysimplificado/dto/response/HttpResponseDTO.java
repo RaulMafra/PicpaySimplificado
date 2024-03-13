@@ -1,4 +1,4 @@
 package com.challenge.picpaysimplificado.dto.response;
 
-public record HttpResponse(String message) {
+public record HttpResponseDTO(String message) {
 }

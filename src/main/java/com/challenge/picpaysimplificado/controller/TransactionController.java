@@ -1,7 +1,7 @@
 package com.challenge.picpaysimplificado.controller;
 
 import com.challenge.picpaysimplificado.dto.request.TransactionDTO;
-import com.challenge.picpaysimplificado.dto.response.HttpResponse;
+import com.challenge.picpaysimplificado.dto.response.HttpResponseDTO;
 import com.challenge.picpaysimplificado.service.TransactionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,9 @@ public class TransactionController {
     private TransactionServiceImpl transactionServiceImpl;
 
     @PostMapping("/payment")
-    public ResponseEntity<HttpResponse> makePayment(@RequestBody TransactionDTO transactionDTO){
+    public ResponseEntity<HttpResponseDTO> makePayment(@RequestBody TransactionDTO transactionDTO){
         this.transactionServiceImpl.makePayment(transactionDTO);
-        return new ResponseEntity<>(new HttpResponse("Payment done"), HttpStatus.OK);
+        return new ResponseEntity<>(new HttpResponseDTO("Payment done"), HttpStatus.OK);
     }
 
 }
