@@ -1,4 +1,4 @@
-package com.challenge.picpaysimplificado.service;
+package com.challenge.picpaysimplificado.service.interfaces;
 
 import com.challenge.picpaysimplificado.dto.request.TransactionDTO;
 
