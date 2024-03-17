@@ -1,15 +1,14 @@
-package com.challenge.picpaysimplificado.service;
+package com.challenge.picpaysimplificado.service.impl;
 
-import com.challenge.picpaysimplificado.controller.webservices.AuthorizationService;
-import com.challenge.picpaysimplificado.controller.webservices.SendNotification;
 import com.challenge.picpaysimplificado.domain.entity.Transaction;
 import com.challenge.picpaysimplificado.domain.entity.User;
 import com.challenge.picpaysimplificado.domain.entity.enumerator.UserType;
 import com.challenge.picpaysimplificado.dto.request.TransactionDTO;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.TransactionException;
-import com.challenge.picpaysimplificado.exceptionshandler.exceptions.UserNotFound;
 import com.challenge.picpaysimplificado.repository.TransactionRepository;
-import com.challenge.picpaysimplificado.repository.UserRepository;
+import com.challenge.picpaysimplificado.service.interfaces.TransactionService;
+import com.challenge.picpaysimplificado.webservices.AuthorizationService;
+import com.challenge.picpaysimplificado.webservices.SendNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionRepository transactionRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserServiceImpl userService;
 
     @Autowired
     private AuthorizationService authorizationService;
@@ -39,10 +38,8 @@ public class TransactionServiceImpl implements TransactionService {
         if(Stream.of(transactionDTO.value(), transactionDTO.receiver(), transactionDTO.payer()).anyMatch(Objects::isNull)){
             throw new TransactionException("There is some field empty");
         }
-        User payer = this.userRepository.findById(transactionDTO.payer()).orElseThrow(() ->
-                new UserNotFound("Payer not found"));
-        User receiver = this.userRepository.findById(transactionDTO.receiver()).orElseThrow(() ->
-                new UserNotFound("Receiver not found"));
+        User payer = this.userService.getUser(transactionDTO.payer());
+        User receiver = this.userService.getUser(transactionDTO.receiver());
 
         this.verifyUserType(payer);
         this.checkBalance(payer, transactionDTO.value());
@@ -52,14 +49,12 @@ public class TransactionServiceImpl implements TransactionService {
         receiver.setBalance(receiver.getBalance().add(transactionDTO.value()));
         payer.setBalance(payer.getBalance().subtract(transactionDTO.value()));
 
-        this.authorizationService.verifyAuthorization();
-
         Transaction transaction = new Transaction(transactionDTO.value(), transactionDTO.payer(), transactionDTO.receiver(),
                 payer.getUserType());
 
-        this.transactionRepository.save(transaction);
-        this.userRepository.save(payer);
-        this.userRepository.save(receiver);
+        this.saveTransaction(transaction);
+        this.userService.saveUser(payer);
+        this.userService.saveUser(receiver);
 
         this.sendNotification.send();
 
@@ -81,5 +76,9 @@ public class TransactionServiceImpl implements TransactionService {
         if(this.authorizationService.verifyAuthorization() != HttpStatus.OK){
             throw new TransactionException("Transaction denied");
         }
+    }
+
+    private void saveTransaction(Transaction transaction){
+        this.transactionRepository.save(transaction);
     }
 }

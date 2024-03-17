@@ -1,30 +1,23 @@
-package com.challenge.picpaysimplificado.service;
+package com.challenge.picpaysimplificado.service.impl;
 
 import com.challenge.picpaysimplificado.domain.entity.User;
 import com.challenge.picpaysimplificado.dto.request.CreateUserDTO;
-import com.challenge.picpaysimplificado.dto.response.GetUserDTO;
-import com.challenge.picpaysimplificado.exceptionshandler.exceptions.TransactionException;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.UserException;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.UserNotFound;
 import com.challenge.picpaysimplificado.repository.UserRepository;
+import com.challenge.picpaysimplificado.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.beans.Encoder;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-
     @Autowired
-    private  UserServiceImpl(UserRepository userRepository){
-        this.userRepository = userRepository;
-    }
-
+    private UserRepository userRepository;
 
     @Override
     public void createUser(CreateUserDTO createUserDTO) {
@@ -38,11 +31,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public GetUserDTO getUser(Long id) {
-        if(id == null) throw new UserException("Does not permitted document empty");
-        User user = this.userRepository.findById(id).orElseThrow(() -> new UserNotFound("User not found"));
-        return new GetUserDTO(user);
+    public User getUser(Long id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new UserNotFound("User not found"));
 
+    }
+
+    @Override
+    public void saveUser(User user) {
+        this.userRepository.save(user);
     }
 
 }
