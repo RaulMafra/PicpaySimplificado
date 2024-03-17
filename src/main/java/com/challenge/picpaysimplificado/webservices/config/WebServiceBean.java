@@ -1,4 +1,4 @@
-package com.challenge.picpaysimplificado.controller.webservices.config;
+package com.challenge.picpaysimplificado.webservices.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
