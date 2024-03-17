@@ -1,4 +1,4 @@
-package com.challenge.picpaysimplificado.service.security;
+package com.challenge.picpaysimplificado.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
