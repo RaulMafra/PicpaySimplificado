@@ -1,6 +1,6 @@
-package com.challenge.picpaysimplificado.domain.entity;
+package com.challenge.picpaysimplificado.domain;
 
-import com.challenge.picpaysimplificado.domain.entity.enumerator.UserType;
+import com.challenge.picpaysimplificado.domain.enumerator.UserType;
 import com.challenge.picpaysimplificado.dto.request.CreateUserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,9 @@ public class User {
     @Column(name = "id_user")
     private Long id;
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
     @Column(unique = true, nullable = false)
     private String document;
     @Column(unique = true, nullable = false)
@@ -37,7 +39,8 @@ public class User {
     private UserType userType;
 
     public User(CreateUserDTO createUserDTO){
-        this.name = createUserDTO.name();
+        this.firstName = createUserDTO.firstName();
+        this.lastName = createUserDTO.lastName();
         this.document = createUserDTO.document();
         this.email = createUserDTO.email();
         this.password = createUserDTO.password();
