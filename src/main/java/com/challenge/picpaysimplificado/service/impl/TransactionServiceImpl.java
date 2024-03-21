@@ -1,8 +1,8 @@
 package com.challenge.picpaysimplificado.service.impl;
 
-import com.challenge.picpaysimplificado.domain.entity.Transaction;
-import com.challenge.picpaysimplificado.domain.entity.User;
-import com.challenge.picpaysimplificado.domain.entity.enumerator.UserType;
+import com.challenge.picpaysimplificado.domain.Transaction;
+import com.challenge.picpaysimplificado.domain.User;
+import com.challenge.picpaysimplificado.domain.enumerator.UserType;
 import com.challenge.picpaysimplificado.dto.request.TransactionDTO;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.TransactionException;
 import com.challenge.picpaysimplificado.repository.TransactionRepository;
@@ -35,22 +35,21 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void makePayment(TransactionDTO transactionDTO) {
-        if(Stream.of(transactionDTO.value(), transactionDTO.receiver(), transactionDTO.payer()).anyMatch(Objects::isNull)){
-            throw new TransactionException("There is some field empty");
+        if(Stream.of(transactionDTO.amount(), transactionDTO.receiver(), transactionDTO.payer()).anyMatch(Objects::isNull)){
+            throw new TransactionException("There is some property incorrect or empty");
         }
         User payer = this.userService.getUser(transactionDTO.payer());
         User receiver = this.userService.getUser(transactionDTO.receiver());
 
         this.verifyUserType(payer);
-        this.checkBalance(payer, transactionDTO.value());
+        this.checkBalance(payer, transactionDTO.amount());
 
         this.verifyAuthorization();
 
-        receiver.setBalance(receiver.getBalance().add(transactionDTO.value()));
-        payer.setBalance(payer.getBalance().subtract(transactionDTO.value()));
+        receiver.setBalance(receiver.getBalance().add(transactionDTO.amount()));
+        payer.setBalance(payer.getBalance().subtract(transactionDTO.amount()));
 
-        Transaction transaction = new Transaction(transactionDTO.value(), transactionDTO.payer(), transactionDTO.receiver(),
-                payer.getUserType());
+        Transaction transaction = new Transaction(transactionDTO.amount(), payer, receiver);
 
         this.saveTransaction(transaction);
         this.userService.saveUser(payer);
@@ -62,7 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private void verifyUserType(User payer){
         if(!(payer.getUserType().equals(UserType.COMMON))){
-            throw new TransactionException("Company does not can make transfer");
+            throw new TransactionException("Merchant does not can make payment");
         }
     }
 
