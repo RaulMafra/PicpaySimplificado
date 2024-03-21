@@ -1,6 +1,6 @@
 package com.challenge.picpaysimplificado.service.impl;
 
-import com.challenge.picpaysimplificado.domain.entity.User;
+import com.challenge.picpaysimplificado.domain.User;
 import com.challenge.picpaysimplificado.dto.request.CreateUserDTO;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.UserException;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.UserNotFound;
@@ -21,9 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(CreateUserDTO createUserDTO) {
-        if(Stream.of(createUserDTO.name(), createUserDTO.document(), createUserDTO.email(), createUserDTO.password(), createUserDTO.balance(),
-                createUserDTO.userType()).anyMatch(Objects::isNull)){
-            throw new UserException("There is some field empty");
+        if(Stream.of(createUserDTO.firstName(),createUserDTO.lastName(), createUserDTO.document(), createUserDTO.email(), createUserDTO.password(),
+                createUserDTO.balance(), createUserDTO.userType()).anyMatch(Objects::isNull)){
+            throw new UserException("There is some property incorrect or empty");
         }
         User newUser = new User(createUserDTO);
         newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));

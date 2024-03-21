@@ -1,6 +1,6 @@
 package com.challenge.picpaysimplificado.repository;
 
-import com.challenge.picpaysimplificado.domain.entity.Transaction;
+import com.challenge.picpaysimplificado.domain.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

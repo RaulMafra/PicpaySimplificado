@@ -1,6 +1,6 @@
 package com.challenge.picpaysimplificado.service.interfaces;
 
-import com.challenge.picpaysimplificado.domain.entity.User;
+import com.challenge.picpaysimplificado.domain.User;
 import com.challenge.picpaysimplificado.dto.request.CreateUserDTO;
 
 public interface UserService {
