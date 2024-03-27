@@ -1,6 +1,5 @@
 package com.challenge.picpaysimplificado.domain;
 
-import com.challenge.picpaysimplificado.domain.enumerator.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
