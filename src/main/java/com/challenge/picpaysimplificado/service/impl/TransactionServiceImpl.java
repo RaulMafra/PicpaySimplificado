@@ -10,7 +10,6 @@ import com.challenge.picpaysimplificado.service.interfaces.TransactionService;
 import com.challenge.picpaysimplificado.webservices.AuthorizationService;
 import com.challenge.picpaysimplificado.webservices.SendNotification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -44,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
         this.verifyUserType(payer);
         this.checkBalance(payer, transactionDTO.amount());
 
-        this.verifyAuthorization();
+        this.authorizationService.verifyAuthorization(payer);
 
         receiver.setBalance(receiver.getBalance().add(transactionDTO.amount()));
         payer.setBalance(payer.getBalance().subtract(transactionDTO.amount()));
@@ -55,7 +54,7 @@ public class TransactionServiceImpl implements TransactionService {
         this.userService.saveUser(payer);
         this.userService.saveUser(receiver);
 
-        this.sendNotification.send();
+        this.sendNotification.send(payer, "Pagamento realizado com sucesso");
 
     }
 
@@ -71,11 +70,6 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
-    private void verifyAuthorization(){
-        if(this.authorizationService.verifyAuthorization() != HttpStatus.OK){
-            throw new TransactionException("Transaction denied");
-        }
-    }
 
     private void saveTransaction(Transaction transaction){
         this.transactionRepository.save(transaction);
