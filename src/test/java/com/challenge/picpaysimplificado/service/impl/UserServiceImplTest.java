@@ -1,7 +1,7 @@
 package com.challenge.picpaysimplificado.service.impl;
 
-import com.challenge.picpaysimplificado.domain.entity.User;
-import com.challenge.picpaysimplificado.domain.entity.enumerator.UserType;
+import com.challenge.picpaysimplificado.domain.User;
+import com.challenge.picpaysimplificado.domain.enumerator.UserType;
 import com.challenge.picpaysimplificado.dto.request.CreateUserDTO;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.UserException;
 import com.challenge.picpaysimplificado.repository.UserRepository;
@@ -42,7 +42,7 @@ class UserServiceImplTest {
 
     @Test
     void mustCreateUserWithSuccessfully() {
-        CreateUserDTO createUserDTO = new CreateUserDTO("any", "12345678909", "any@email.com", "123",
+        CreateUserDTO createUserDTO = new CreateUserDTO("any", "any","12345678909", "any@email.com", "123",
                 new BigDecimal(50), UserType.COMMON);
 
         assertDoesNotThrow(() -> this.userService.createUser(createUserDTO));
@@ -53,7 +53,7 @@ class UserServiceImplTest {
 
     @Test
     void mustFailedIfSomeFieldIsNull(){
-        CreateUserDTO createUserDTO = new CreateUserDTO(null, "12345678909", "any@email.com", "123",
+        CreateUserDTO createUserDTO = new CreateUserDTO(null, null, "12345678909", "any@email.com", "123",
                 new BigDecimal(50), UserType.COMMON);
 
         assertThrows(UserException.class, () -> this.userService.createUser(createUserDTO),
@@ -64,7 +64,7 @@ class UserServiceImplTest {
 
     @Test
     void mustGetAUserWithSuccessfully() {
-        User user = new User(1L, "any", "12345678909", "any@email.com", "123",
+        User user = new User(1L, "any", "any", "12345678909", "any@email.com", "123",
                 new BigDecimal(50), UserType.COMMON);
 
         this.saveUser(user);

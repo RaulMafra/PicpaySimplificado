@@ -1,7 +1,7 @@
 package com.challenge.picpaysimplificado.controller;
 
-import com.challenge.picpaysimplificado.domain.entity.User;
-import com.challenge.picpaysimplificado.domain.entity.enumerator.UserType;
+import com.challenge.picpaysimplificado.domain.User;
+import com.challenge.picpaysimplificado.domain.enumerator.UserType;
 import com.challenge.picpaysimplificado.dto.request.CreateUserDTO;
 import com.challenge.picpaysimplificado.dto.response.GetUserDTO;
 import com.challenge.picpaysimplificado.service.impl.UserServiceImpl;
@@ -52,7 +52,7 @@ class UserControllerTest {
 
     @Test
     void mustCreateCommonUserAndReturnStatusCode201() throws Exception {
-        CreateUserDTO createUserDTO = new CreateUserDTO("any", "12345678909", "any@email.com", "123",
+        CreateUserDTO createUserDTO = new CreateUserDTO("any", "any", "12345678909", "any@email.com", "123",
                 new BigDecimal(50), UserType.COMMON);
 
         Mockito.doNothing().when(this.userService).createUser(createUserDTO);
@@ -71,8 +71,8 @@ class UserControllerTest {
 
     @Test
     void mustCreateCompanyUserAndReturnStatusCode201() throws Exception {
-        CreateUserDTO createUserDTO = new CreateUserDTO("any", "12345678909234", "any@email.com", "123",
-                new BigDecimal(50), UserType.COMPANY);
+        CreateUserDTO createUserDTO = new CreateUserDTO("any","any","12345678909234", "any@email.com", "123",
+                new BigDecimal(50), UserType.MERCHANT);
 
         Mockito.doNothing().when(this.userService).createUser(createUserDTO);
 
@@ -90,7 +90,8 @@ class UserControllerTest {
 
     @Test
     void shouldGetAUserAndReturnStatus200() throws Exception {
-        User user = new User(1L, "any", "12345678909", "any@email.com", "123", new BigDecimal(0), UserType.COMMON);
+        User user = new User(1L, "any", "any", "12345678909", "any@email.com", "123",
+                new BigDecimal(0), UserType.COMMON);
 
         Mockito.when(this.userService.getUser(1L)).thenReturn(user);
 
