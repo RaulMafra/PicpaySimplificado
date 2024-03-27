@@ -1,14 +1,19 @@
 package com.challenge.picpaysimplificado.webservices;
 
+import com.challenge.picpaysimplificado.domain.User;
+import com.challenge.picpaysimplificado.exceptionshandler.exceptions.TransactionException;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.WebServiceException;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 @Setter
@@ -20,13 +25,19 @@ public class AuthorizationService {
     @Value(value = "${authorization.service.url}")
     private String url;
 
-    public HttpStatusCode verifyAuthorization() {
+    public void verifyAuthorization(User payer) {
+        ResponseEntity<Map> authorizationResponse;
         try {
-            ResponseEntity<String> entity = this.restTemplate.getForEntity(url, String.class);
-            return entity.getStatusCode();
+            authorizationResponse = this.restTemplate.getForEntity(url, Map.class);
         } catch (RestClientException e) {
             throw new WebServiceException("Authorization service is unavailable");
         }
+        if (authorizationResponse.getStatusCode() != HttpStatus.OK ||
+                !("Autorizado".equalsIgnoreCase((String) Objects.requireNonNull(authorizationResponse.getBody()).get("message")))) {
+            throw new TransactionException("Transaction denied");
 
+        }
     }
+
 }
+
