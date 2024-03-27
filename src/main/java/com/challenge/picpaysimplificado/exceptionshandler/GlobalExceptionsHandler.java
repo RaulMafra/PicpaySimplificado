@@ -54,11 +54,10 @@ public class GlobalExceptionsHandler {
         return new ResponseEntity<>(httpResponseBody, headers(), httpResponseBody.getStatus());
     }
 
-//    @ExceptionHandler(RuntimeException.class)
-//    private ResponseEntity<HttpResponseBody> transactionException(RuntimeException e, WebRequest request, HttpServletRequest httpServletRequest){
-//        HttpResponseBody httpResponseBody = new HttpResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), httpServletRequest.getRequestURI());
-//        return new ResponseEntity<>(httpResponseBody, headers(), httpResponseBody.getStatus());
-//    }
-
+    @ExceptionHandler(RuntimeException.class)
+    private ResponseEntity<HttpResponseBody> transactionException(RuntimeException e, WebRequest request, HttpServletRequest httpServletRequest){
+        HttpResponseBody httpResponseBody = new HttpResponseBody(HttpStatus.INTERNAL_SERVER_ERROR.value(), HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), httpServletRequest.getRequestURI());
+        return new ResponseEntity<>(httpResponseBody, headers(), httpResponseBody.getStatus());
+    }
 
 }
