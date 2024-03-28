@@ -50,7 +50,7 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void mustMakeTransactionWithSuccessfully() {
+    void mustMakeTransferWithSuccessfullyOfUserCommonForUserMerchant() {
         TransactionDTO transactionDTO = new TransactionDTO(new BigDecimal(10), 1L, 2L);
 
         payer.setBalance(new BigDecimal(50));
@@ -76,17 +76,30 @@ class TransactionServiceImplTest {
     }
 
     @Test
-    void mustFailedIfSomeFieldBeNullOfTheTransactionDTO() {
-        TransactionDTO transactionDTO = new TransactionDTO(new BigDecimal(10), null, 2L);
+    void mustMakeTransferWithSuccessfullyOfUserCommonForUserCommon() {
+        TransactionDTO transactionDTO = new TransactionDTO(new BigDecimal(10), 1L, 2L);
+
+        payer.setBalance(new BigDecimal(50));
+        receiver.setUserType(UserType.COMMON);
+
+        Mockito.when(this.userService.getUser(1L)).thenReturn(payer);
+        Mockito.when(this.userService.getUser(2L)).thenReturn(receiver);
 
         assertAll(
-                () -> assertEquals(new BigDecimal(0), this.payer.getBalance()),
-                () -> assertEquals(new BigDecimal(0), this.receiver.getBalance()),
-                () -> assertThrows(TransactionException.class, () -> this.transactionService.makePayment(transactionDTO),
-                        "There is some property incorrect or empty")
+                () -> assertDoesNotThrow(() -> this.transactionService.makePayment(transactionDTO)),
+                () -> assertDoesNotThrow(() -> this.authorizationService.verifyAuthorization(payer)),
+                () -> assertEquals(new BigDecimal(40), payer.getBalance()),
+                () -> assertEquals(new BigDecimal(10), receiver.getBalance())
         );
 
-        Mockito.verifyNoInteractions(this.authorizationService, this.transactionRepository, this.userService, this.sendNotification);
+        Mockito.verify(this.userService).getUser(1L);
+        Mockito.verify(this.userService).getUser(2L);
+        Mockito.verify(this.authorizationService, Mockito.times(2)).verifyAuthorization(payer);
+        Mockito.verify(this.transactionRepository).save(Mockito.any());
+        Mockito.verify(this.userService).saveUser(payer);
+        Mockito.verify(this.userService).saveUser(receiver);
+        Mockito.verify(this.sendNotification).send(payer, "Pagamento realizado com sucesso");
+        Mockito.verifyNoMoreInteractions(authorizationService, transactionRepository, userService, sendNotification);
     }
 
     @Test
@@ -109,6 +122,22 @@ class TransactionServiceImplTest {
         Mockito.verifyNoMoreInteractions(this.userService);
 
     }
+
+    @Test
+    void mustFailedIfSomeFieldBeNullOfTheTransactionDTO() {
+        TransactionDTO transactionDTO = new TransactionDTO(new BigDecimal(10), null, 2L);
+
+        assertAll(
+                () -> assertEquals(new BigDecimal(0), this.payer.getBalance()),
+                () -> assertEquals(new BigDecimal(0), this.receiver.getBalance()),
+                () -> assertThrows(TransactionException.class, () -> this.transactionService.makePayment(transactionDTO),
+                        "There is some property incorrect or empty")
+        );
+
+        Mockito.verifyNoInteractions(this.authorizationService, this.transactionRepository, this.userService, this.sendNotification);
+    }
+
+
 
     @Test
     void mustFailedIfBalancePayerIsInsufficient() {
