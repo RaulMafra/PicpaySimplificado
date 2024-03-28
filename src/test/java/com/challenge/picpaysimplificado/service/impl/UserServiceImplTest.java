@@ -57,13 +57,13 @@ class UserServiceImplTest {
                 new BigDecimal(50), UserType.COMMON);
 
         assertThrows(UserException.class, () -> this.userService.createUser(createUserDTO),
-                "There is some field empty");
+                "There is some property incorrect or empty");
 
         Mockito.verifyNoInteractions(this.mockUserRepository);
     }
 
     @Test
-    void mustGetAUserWithSuccessfully() {
+    void mustGetUserWithSuccessfully() {
         User user = new User(1L, "any", "any", "12345678909", "any@email.com", "123",
                 new BigDecimal(50), UserType.COMMON);
 
