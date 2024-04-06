@@ -20,8 +20,7 @@ public class SecurityFilter {
                 .csrf(AbstractHttpConfigurer::disable).headers(headers ->
                         headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/restful/v1/users/**", "/restful/v1/transactions/**").permitAll()
-                        .anyRequest().permitAll())
+                        .requestMatchers("/**").permitAll())
                 .build();
     }
 
