@@ -1,6 +1,8 @@
 package com.challenge.picpaysimplificado.dto.response;
 
-import com.challenge.picpaysimplificado.domain.User;
+import com.challenge.picpaysimplificado.domain.enumerator.UserType;
 
-public record GetUserDTO(User user) {
+import java.math.BigDecimal;
+
+public record GetUserDTO(Long id, String firstName, String lastName, String document, String email, String password, BigDecimal balance, UserType userType) {
 }
