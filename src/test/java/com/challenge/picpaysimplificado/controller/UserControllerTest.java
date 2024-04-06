@@ -46,7 +46,7 @@ class UserControllerTest {
     void init(){
         this.mockMvc = MockMvcBuilders.standaloneSetup(userController)
                 .alwaysDo(print()).build();
-        this.uri = new URI("/restful/v1/users");
+        this.uri = new URI("/picpay-simplificado/v1/users");
     }
 
 
@@ -90,8 +90,10 @@ class UserControllerTest {
 
     @Test
     void shouldGetAUserAndReturnStatus200() throws Exception {
-        User user = new User(1L, "any", "any", "12345678909", "any@email.com", "123",
+        GetUserDTO getUserDTO = new GetUserDTO(1L, "any", "any", "12345678909", "any@email.com", "123",
                 new BigDecimal(0), UserType.COMMON);
+        User user = new User(getUserDTO.id(), getUserDTO.firstName(), getUserDTO.lastName(), getUserDTO.document(),
+                getUserDTO.email(), getUserDTO.password(), getUserDTO.balance(), getUserDTO.userType());
 
         Mockito.when(this.userService.getUser(1L)).thenReturn(user);
 
@@ -99,7 +101,7 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8))
                 .andExpectAll(status().isOk(),
-                        content().string(new ObjectMapper().writeValueAsString(new GetUserDTO(user))))
+                        content().string(new ObjectMapper().writeValueAsString(getUserDTO)))
                 .andReturn();
 
         Mockito.verify(this.userService).getUser(1L);

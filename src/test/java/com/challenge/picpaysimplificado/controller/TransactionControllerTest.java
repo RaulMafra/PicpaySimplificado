@@ -42,7 +42,7 @@ class TransactionControllerTest {
     void init(){
         this.mockMvc = MockMvcBuilders.standaloneSetup(transactionController)
                 .alwaysDo(MockMvcResultHandlers.print()).build();
-        this.uri = new URI("/restful/v1/transactions/payment");
+        this.uri = new URI("/picpay-simplificado/v1/transactions/payment");
     }
 
     @Test
