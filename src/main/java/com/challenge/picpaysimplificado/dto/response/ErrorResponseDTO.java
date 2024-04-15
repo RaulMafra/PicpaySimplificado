@@ -4,4 +4,4 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
-public record ResponseErrorDTO(LocalDateTime timestamp, int statusCode, HttpStatus status, String message, String path) { }
+public record ErrorResponseDTO(LocalDateTime timestamp, int statusCode, HttpStatus status, String message, String path) { }
