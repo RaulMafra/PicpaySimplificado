@@ -89,7 +89,7 @@ class UserControllerTest {
     }
 
     @Test
-    void shouldGetAUserAndReturnStatus200() throws Exception {
+    void mustGetAUserAndReturnStatus200() throws Exception {
         GetUserDTO getUserDTO = new GetUserDTO(1L, "any", "any", "12345678909", "any@email.com", "123",
                 new BigDecimal(0), UserType.COMMON);
         User user = new User(getUserDTO.id(), getUserDTO.firstName(), getUserDTO.lastName(), getUserDTO.document(),
@@ -97,7 +97,7 @@ class UserControllerTest {
 
         Mockito.when(this.userService.getUser(1L)).thenReturn(user);
 
-        this.mockMvc.perform(get(uri + "/1")
+        this.mockMvc.perform(get(uri + "/{id}", getUserDTO.id())
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8))
                 .andExpectAll(status().isOk(),
@@ -108,4 +108,5 @@ class UserControllerTest {
         Mockito.verifyNoMoreInteractions(this.userService);
 
     }
+
 }
