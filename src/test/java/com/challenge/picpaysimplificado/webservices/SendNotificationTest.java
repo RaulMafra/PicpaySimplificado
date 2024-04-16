@@ -64,7 +64,7 @@ class SendNotificationTest {
         Mockito.when(this.restTemplate.postForEntity(url, notificationDTO, String.class)).thenReturn(response);
 
         assertThrows(WebServiceException.class, () -> this.sendNotification.send(payer,notificationDTO.message()),
-                "Email service is unavailable");
+                "Doesn't was possible to send the notification");
 
         Mockito.verify(this.restTemplate).postForEntity(url, notificationDTO, String.class);
         Mockito.verifyNoMoreInteractions(this.restTemplate);

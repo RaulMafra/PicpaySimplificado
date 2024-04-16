@@ -31,7 +31,7 @@ public class SendNotification {
             throw new WebServiceException("Email service is unavailable");
         }
         if (notificationResponse.getStatusCode() != HttpStatus.OK) {
-            throw new WebServiceException("Email service is unavailable");
+            throw new WebServiceException("Doesn't was possible to send the notification");
         }
     }
 
