@@ -1,0 +1,42 @@
+services:
+  backend:
+    container_name: spring-application
+    depends_on:
+        h2-database:
+          condition: service_started
+          restart: true
+          required: false
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - '8080'
+    volumes:
+      - app:/home/spring
+    networks:
+      - app-spring-network
+  h2-database:
+    container_name: h2-database
+    image: oscarfonts/h2
+    restart: always
+    environment:
+      username: sa
+      password:
+    ports:
+      - '8080'
+    volumes:
+      - db-data:/home/spring
+    networks:
+      - app-spring-network
+    labels:
+      org.springframework.boot.readiness-check.tcp.disable: true
+volumes:
+  app:
+  db-data:
+networks:
+  app-spring-network:
+
+
+
+
+
