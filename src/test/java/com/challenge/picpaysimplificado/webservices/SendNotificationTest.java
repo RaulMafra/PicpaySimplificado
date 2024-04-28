@@ -4,6 +4,7 @@ import com.challenge.picpaysimplificado.domain.User;
 import com.challenge.picpaysimplificado.domain.enumerator.UserType;
 import com.challenge.picpaysimplificado.dto.request.NotificationDTO;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.WebServiceException;
+import com.challenge.picpaysimplificado.webservices.notificationservice.SendNotification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

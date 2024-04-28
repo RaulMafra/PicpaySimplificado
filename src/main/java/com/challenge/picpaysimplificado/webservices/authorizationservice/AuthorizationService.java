@@ -1,8 +1,9 @@
-package com.challenge.picpaysimplificado.webservices;
+package com.challenge.picpaysimplificado.webservices.authorizationservice;
 
 import com.challenge.picpaysimplificado.domain.User;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.TransactionException;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.WebServiceException;
+import com.challenge.picpaysimplificado.webservices.authorizationservice.core.AuthorizationServiceUseCase;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,7 @@ import java.util.Objects;
 
 @Service
 @Setter
-public class AuthorizationService {
+public class AuthorizationService implements AuthorizationServiceUseCase {
 
     @Autowired
     private RestTemplate restTemplate;

@@ -7,8 +7,8 @@ import com.challenge.picpaysimplificado.dto.request.TransactionDTO;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.TransactionException;
 import com.challenge.picpaysimplificado.repository.TransactionRepository;
 import com.challenge.picpaysimplificado.service.interfaces.TransactionService;
-import com.challenge.picpaysimplificado.webservices.AuthorizationService;
-import com.challenge.picpaysimplificado.webservices.SendNotification;
+import com.challenge.picpaysimplificado.webservices.authorizationservice.AuthorizationService;
+import com.challenge.picpaysimplificado.webservices.notificationservice.SendNotification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

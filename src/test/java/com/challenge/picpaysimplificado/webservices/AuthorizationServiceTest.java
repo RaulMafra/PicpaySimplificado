@@ -3,6 +3,7 @@ package com.challenge.picpaysimplificado.webservices;
 import com.challenge.picpaysimplificado.domain.User;
 import com.challenge.picpaysimplificado.domain.enumerator.UserType;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.TransactionException;
+import com.challenge.picpaysimplificado.webservices.authorizationservice.AuthorizationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

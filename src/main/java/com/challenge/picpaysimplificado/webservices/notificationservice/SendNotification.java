@@ -1,8 +1,9 @@
-package com.challenge.picpaysimplificado.webservices;
+package com.challenge.picpaysimplificado.webservices.notificationservice;
 
 import com.challenge.picpaysimplificado.domain.User;
 import com.challenge.picpaysimplificado.dto.request.NotificationDTO;
 import com.challenge.picpaysimplificado.exceptionshandler.exceptions.WebServiceException;
+import com.challenge.picpaysimplificado.webservices.notificationservice.core.SendNotificationUseCase;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @Setter
-public class SendNotification {
+public class SendNotification implements SendNotificationUseCase {
 
     @Autowired
     private RestTemplate restTemplate;
