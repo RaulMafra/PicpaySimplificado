@@ -38,4 +38,4 @@ justamente por ser um banco de dados em memória, facilitando no desenvolvimento
 
 ## License
 
-Veja o arquivo [LICENSE](https://github.com/RaulMafra/transaction-service/blob/main/LICENSE) para direitos de licença e limitações (MIT).
+Veja o arquivo [LICENSE](https://github.com/RaulMafra/PicpaySimplificado/blob/main/LICENSE) para direitos de licença e limitações (MIT).
